@@ -4,6 +4,18 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button"; // Assuming you're using a custom Button component
 
 export default function IntroductionSection() {
+  const handleEmailClick = () => {
+    const email = "Kevin@MyFlightTeam.com";
+    const subject = encodeURIComponent("Inquiry about services");
+    const body = encodeURIComponent(
+      "Hello Kevin,\n\nI would like to know more about your services."
+    );
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+
+    // Optional: Log to console for debugging
+    console.log(`Opening email client for ${email}`);
+  };
+
   return (
     <motion.section
       className="min-h-screen flex items-center justify-center bg-gray-50 py-20 px-4 sm:px-6 lg:px-8"
@@ -46,7 +58,11 @@ export default function IntroductionSection() {
             <Button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-all duration-300">
               Book Now
             </Button>
-            <Button className="bg-transparent border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white py-3 px-6 rounded-lg transition-all duration-300">
+            <Button
+              className="bg-transparent border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white py-3 px-6 rounded-lg transition-all duration-300"
+              onClick={handleEmailClick}
+              aria-label="Learn more about our services via email"
+            >
               Learn More
             </Button>
           </motion.div>
@@ -54,7 +70,7 @@ export default function IntroductionSection() {
 
         {/* Right Side: Drone Video */}
         <motion.div
-          className="relative w-full h-[500px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl bg-black" // Added bg-black for debugging
+          className="relative w-full h-[500px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl bg-black"
           initial={{ x: 50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -70,7 +86,7 @@ export default function IntroductionSection() {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 1 }} // Smooth fade-in
             preload="auto" // Preload the video
-            controls // Add controls for debugging
+            controls // Add controls for debugging; remove if not needed in production
           >
             Your browser does not support the video tag.
           </motion.video>

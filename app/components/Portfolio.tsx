@@ -44,6 +44,23 @@ const portfolioItems = [
   },
 ];
 
+const sponsors = [
+  {
+    name: "National Association for Coordinators",
+    logo: "https://via.placeholder.com/150?text=National+Association", // Replace with actual logo URL
+  },
+  {
+    name: "Pilot Institute",
+    logo: "https://via.placeholder.com/150?text=Pilot+Institute", // Replace with actual logo URL
+  },
+];
+
+const accolades = [
+  "Pilot Institute Classes 2021 Graduate",
+  "Certified Drone Operator",
+  "FAA Part 107 Licensed",
+];
+
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState("all");
 
@@ -62,6 +79,48 @@ export default function Portfolio() {
       viewport={{ once: true }}
     >
       <div className="container mx-auto px-4">
+        {/* Sponsors Section */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-6">
+            Certified & Supported By
+          </h3>
+          <div className="flex justify-center gap-8">
+            {sponsors.map((sponsor, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.5 }}
+              >
+                <img
+                  src={sponsor.logo}
+                  alt={sponsor.name}
+                  className="h-16 object-contain"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Accolades Section */}
+        <div className="mb-12">
+          <h3 className="text-2xl font-bold text-center mb-6">Our Accolades</h3>
+          <div className="flex justify-center gap-4 flex-wrap">
+            {accolades.map((accolade, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.2, duration: 0.5 }}
+                className="bg-gray-100 px-6 py-2 rounded-full text-sm font-medium"
+              >
+                {accolade}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Portfolio Section */}
         <h2 className="text-4xl font-bold text-center mb-12">Our Portfolio</h2>
         <Tabs defaultValue="all" className="w-full">
           <TabsList className="flex justify-center mb-8">
@@ -103,7 +162,7 @@ export default function Portfolio() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.3 } }} // Add hover animation
+                    whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
                   >
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
@@ -111,7 +170,7 @@ export default function Portfolio() {
                           src={item.image || "/placeholder.svg"}
                           alt={item.title}
                           className="w-full h-64 object-cover"
-                          whileHover={{ scale: 1.1 }} // Add zoom effect on hover
+                          whileHover={{ scale: 1.1 }}
                           transition={{ duration: 0.3 }}
                         />
                         <div className="p-4">

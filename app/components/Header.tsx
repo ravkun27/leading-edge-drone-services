@@ -20,10 +20,10 @@ export default function Header() {
             <img
               src={logo.src}
               alt="Leading Edge Logo"
-              className="w-16 md:w-20 h-auto object-contain"
+              className="w-16 md:w-32 h-auto object-contain"
             />
-            <span className="text-xl md:text-2xl font-bold text-blue-600">
-              Leading Edge
+            <span className="text-lg md:text-2xl font-bold text-blue-600">
+              Leading<span className="italic">E</span>dge
             </span>
           </Link>
 
