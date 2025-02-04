@@ -1,11 +1,21 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import logo from "../../public/logo.png";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { useModal } from "../context/ModalContext";
 
 export default function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { openQuoteModal } = useModal();
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <motion.header
       className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-md"
@@ -22,8 +32,10 @@ export default function Header() {
               alt="Leading Edge Logo"
               className="w-16 md:w-32 h-auto object-contain"
             />
-            <span className="text-lg md:text-2xl font-bold text-blue-600">
-              Leading<span className="italic">E</span>dge
+            <span className="text-2xl md:text-3xl font-extrabold text-blue-600 tracking-tight">
+              <span className="text-blue-800">Leading</span>
+              <span className="italic text-blue-600">E</span>
+              <span className="text-blue-800">dge</span>
             </span>
           </Link>
 
@@ -63,15 +75,76 @@ export default function Header() {
             whileTap={{ scale: 0.95 }}
             className="hidden md:block flex-shrink-0"
           >
-            <Button>Get a Quote</Button>
+            <Button onClick={openQuoteModal}>Get a Quote</Button>
           </motion.div>
 
-          {/* Mobile Menu Button - You can add this later */}
-          <button className="md:hidden">
-            <span className="sr-only">Open menu</span>
-            {/* Add your menu icon here */}
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            onClick={toggleMobileMenu}
+            aria-label="Open menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
+
+        {/* Mobile Menu */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.nav
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden mt-4"
+            >
+              <ul className="flex flex-col space-y-4">
+                <motion.li
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="#services"
+                    className="block hover:text-blue-600 font-medium"
+                    onClick={toggleMobileMenu}
+                  >
+                    Services
+                  </Link>
+                </motion.li>
+                <motion.li
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="#portfolio"
+                    className="block hover:text-blue-600 font-medium"
+                    onClick={toggleMobileMenu}
+                  >
+                    Portfolio
+                  </Link>
+                </motion.li>
+                <motion.li
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Link
+                    href="#contact"
+                    className="block hover:text-blue-600 font-medium"
+                    onClick={toggleMobileMenu}
+                  >
+                    Contact
+                  </Link>
+                </motion.li>
+                <motion.li
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <Button onClick={openQuoteModal}>Get a Quote</Button>
+                </motion.li>
+              </ul>
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </div>
     </motion.header>
   );

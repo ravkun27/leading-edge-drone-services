@@ -1,30 +1,52 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { motion } from "framer-motion"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
-  })
+  });
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData((prevState) => ({ ...prevState, [name]: value }))
-  }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Here you would typically send the form data to your server or a third-party service
-    console.log("Form submitted:", formData)
-    // Reset form after submission
-    setFormData({ name: "", email: "", message: "" })
-  }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await emailjs.send(
+        "your_service_id", // Replace with your EmailJS Service ID
+        "your_template_id", // Replace with your EmailJS Template ID
+        formData,
+        "your_public_key" // Replace with your EmailJS Public Key
+      );
+
+      if (response.status === 200) {
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Email send error:", error);
+      alert("Error sending message.");
+    }
+
+    setLoading(false);
+  };
 
   return (
     <motion.section
@@ -53,7 +75,6 @@ export default function Contact() {
             >
               <Input
                 type="text"
-                id="name"
                 name="name"
                 placeholder="Your Name"
                 value={formData.name}
@@ -69,7 +90,6 @@ export default function Contact() {
             >
               <Input
                 type="email"
-                id="email"
                 name="email"
                 placeholder="Your Email"
                 value={formData.email}
@@ -84,7 +104,6 @@ export default function Contact() {
               transition={{ delay: 0.4 }}
             >
               <Textarea
-                id="message"
                 name="message"
                 placeholder="Your Message"
                 value={formData.message}
@@ -93,14 +112,13 @@ export default function Contact() {
               />
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button type="submit" className="w-full">
-                Send Message
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? "Sending..." : "Send Message"}
               </Button>
             </motion.div>
           </form>
         </motion.div>
       </div>
     </motion.section>
-  )
+  );
 }
-

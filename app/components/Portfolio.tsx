@@ -47,11 +47,11 @@ const portfolioItems = [
 const sponsors = [
   {
     name: "National Association for Coordinators",
-    logo: "https://via.placeholder.com/150?text=National+Association", // Replace with actual logo URL
+    logo: "/images/partner.png", // Replace with actual logo URL
   },
   {
     name: "Pilot Institute",
-    logo: "https://via.placeholder.com/150?text=Pilot+Institute", // Replace with actual logo URL
+    logo: "/images/certified.png", // Replace with actual logo URL
   },
 ];
 
@@ -95,7 +95,7 @@ export default function Portfolio() {
                 <img
                   src={sponsor.logo}
                   alt={sponsor.name}
-                  className="h-16 object-contain"
+                  className="h-16 md:h-24 object-contain"
                 />
               </motion.div>
             ))}
