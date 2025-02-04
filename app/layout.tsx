@@ -1,7 +1,5 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { ModalProvider } from "./context/ModalContext";
-import { Icon } from "lucide-react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <ModalProvider>{children}</ModalProvider>
-      </body>
+      <body className={inter.className}>{children}</body>
     </html>
   );
 }

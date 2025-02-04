@@ -88,8 +88,24 @@ export default function Footer() {
             <p className="text-gray-400">
               10 Burlington Street, Burlington, MA 01803
             </p>
-            <p className="text-gray-400">Phone: (781)-365-9099</p>
-            <p className="text-gray-400">Email: Admin@MyFlightTeam.com</p>
+            <p className="text-gray-400">
+              Phone:{" "}
+              <a
+                href="tel:+17813659099"
+                className="text-blue-500 hover:underline"
+              >
+                +1 (781)-365-9099
+              </a>
+            </p>
+            <p className="text-gray-400">
+              Email:{" "}
+              <a
+                href="mailto:Admin@MyFlightTeam.com"
+                className="text-blue-500 hover:underline"
+              >
+                Admin@MyFlightTeam.com
+              </a>
+            </p>
           </motion.div>
         </div>
 
