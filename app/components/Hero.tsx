@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+ import mavicImage from "/mavic.webp";
 
 export default function Hero() {
   const videoUrls = [
@@ -49,15 +50,37 @@ export default function Hero() {
           <div className="absolute inset-0 bg-black/50"></div>{" "}
           {/* Optional overlay to darken the video */}
         </div>
+   
+        <motion.div
+  className="left-12 sm:left-2/3 w-[7rem] sm:w-[20rem] h-[7rem] sm:h-[20rem]  absolute z-20"
+  animate={{
+    y: [0, -100, 60, -10, 0], // Increased vertical movement
+    x: [0, -80, 100, -10, 0], // Increased horizontal movement
+  }}
+  transition={{
+    duration: 4, // Total duration of one cycle
+    repeat: Infinity, // Infinite looping
+    repeatType: "mirror", // Moves back and forth smoothly
+    ease: "easeInOut", // Smooth easing effect
+  }}
+>
+  <motion.img
+    // src="/mavic.webp"
+    src="/image.png"
+    alt="drone img"
+    className="w-full object-cover transition-transform duration-300"
+  />
+</motion.div>
+
 
         <motion.div
-          className="container mx-auto px-4 z-10 text-white"
+          className="container mt-8 sm:m-0 mx-auto px-4 z-10 text-white"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
           <motion.h1
-            className="text-6xl font-bold mb-4 leading-tight"
+            className="text-5xl sm:text-6xl font-bold mb-4 leading-tight"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
@@ -65,7 +88,7 @@ export default function Hero() {
             Elevate Your Perspective
           </motion.h1>
           <motion.p
-            className="text-2xl mb-8 max-w-2xl"
+            className="text-xl sm:text-2xl mb-8 max-w-2xl"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1, duration: 0.5 }}

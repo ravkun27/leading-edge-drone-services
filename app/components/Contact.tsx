@@ -27,11 +27,13 @@ export default function Contact() {
     setLoading(true);
 
     try {
+      console.log("form data is ", formData);
+      
       const response = await emailjs.send(
-        "your_service_id", // Replace with your EmailJS Service ID
-        "your_template_id", // Replace with your EmailJS Template ID
+        "service_nf44a05", // Replace with your EmailJS Service ID
+        "template_ugkimkm", // Replace with your EmailJS Template ID
         formData,
-        "your_public_key" // Replace with your EmailJS Public Key
+        "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
       );
 
       if (response.status === 200) {

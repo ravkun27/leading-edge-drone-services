@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import logo from "../../public/logo.png";
 import { Menu, X } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 export default function Header() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
@@ -47,16 +48,31 @@ export default function Header() {
     try {
       // For now, just simulate a successful submission
       localStorage.setItem("quoteSubmitted", "true");
-      setIsQuoteModalOpen(false);
-
-      // Reset form data
+      
+      const response = await emailjs.send(
+        "service_hvjrhce", // Replace with your EmailJS Service ID
+        "template_zz47i88", // Replace with your EmailJS Template ID
+        formData,
+        "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
+      );
+      
+      if (response.status === 200) {
+        alert("your request sent successfully!");
+        setIsQuoteModalOpen(false);
+        // Reset form data after response successfull
       setFormData({
         name: "",
         email: "",
         service: "",
         projectDetails: "",
       });
-    } catch (error) {}
+      } else {
+        alert("Failed to send request. Please try again.");
+      }
+     
+    } catch (error) {
+      alert("Error sending request.");
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -75,7 +91,7 @@ export default function Header() {
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
       >
-        <div className="container mx-auto px-4 lg:px-6 py-4">
+        <div className=" mx-auto px-4 lg:px-6 py-4">
           <div className="flex items-center justify-between relative h-12">
             <Link
               href="/"
@@ -93,7 +109,7 @@ export default function Header() {
               </span>
             </Link>
 
-            <nav className="hidden md:block absolute left-1/2 -translate-x-1/2">
+            <nav className="hidden md:block absolute md:left-[63%] lg:left-1/2 -translate-x-1/2">
               <ul className="flex items-center space-x-8">
                 <motion.li
                   whileHover={{ scale: 1.1 }}
@@ -211,13 +227,13 @@ export default function Header() {
         {isQuoteModalOpen && (
           <motion.div
             key="modal"
-            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed top-0 left-0 w-full h-full inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-lg p-8 max-w-md w-full m-4"
+              className="bg-white  rounded-lg p-8 max-w-md w-full m-4"
               initial={{ scale: 0.5 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.5 }}
@@ -234,6 +250,7 @@ export default function Header() {
                     type="text"
                     id="name"
                     name="name"
+                    placeholder="Enter your name"
                     value={formData.name}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -248,6 +265,7 @@ export default function Header() {
                     type="email"
                     id="email"
                     name="email"
+                    placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -286,6 +304,7 @@ export default function Header() {
                   <textarea
                     id="projectDetails"
                     name="projectDetails"
+                    placeholder="Write here about project details"
                     value={formData.projectDetails}
                     onChange={handleInputChange}
                     rows={4}

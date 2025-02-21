@@ -18,18 +18,18 @@ const portfolioItems = [
       "https://images.pexels.com/photos/681347/pexels-photo-681347.jpeg?auto=compress&cs=tinysrgb&w=600",
     title: "Urban Development Map",
   },
-  {
-    category: "realestate",
-    image:
-      "https://images.pexels.com/photos/8431188/pexels-photo-8431188.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Luxury Villa Aerial",
-  },
-  {
-    category: "photography",
-    image:
-      "https://images.pexels.com/photos/5032264/pexels-photo-5032264.jpeg?auto=compress&cs=tinysrgb&w=600",
-    title: "Mountain Range",
-  },
+  // {
+  //   category: "realestate",
+  //   image:
+  //     "https://images.pexels.com/photos/8431188/pexels-photo-8431188.jpeg?auto=compress&cs=tinysrgb&w=600",
+  //   title: "Luxury Villa Aerial",
+  // },
+  // {
+  //   category: "photography",
+  //   image:
+  //     "https://images.pexels.com/photos/5032264/pexels-photo-5032264.jpeg?auto=compress&cs=tinysrgb&w=600",
+  //   title: "Mountain Range",
+  // },
   {
     category: "mapping",
     image:
@@ -42,6 +42,31 @@ const portfolioItems = [
       "https://images.pexels.com/photos/1265102/pexels-photo-1265102.jpeg?auto=compress&cs=tinysrgb&w=600",
     title: "Commercial Complex",
   },
+  {
+    category: "mapping",
+    image:"/portfolioImg/mobiledronview.jpg",
+    title: "Drone-based Mapping", //Agricultural Land Survey 
+  },
+  {
+    category: "mapping",
+    image:"/portfolioImg/area.jpg",
+    title: "Land Area Measurement", //House Plot Analysis 
+  },
+  {
+    category: "photography",
+    image:"/portfolioImg/houseExterior.jpg",
+    title: "House Exterior", //General View  
+  },
+  {
+    category: "realestate",
+    image:"/portfolioImg/largeHousearea.jpg",
+    title: "Community Housing", // Large Housing Area   
+  },
+  {
+    category: "realestate",
+    image:"/portfolioImg/singlehouse.jpg",
+    title: " Individual Property View", 
+  },
 ];
 
 const sponsors = [
@@ -50,9 +75,17 @@ const sponsors = [
     logo: "/images/partner.png", // Replace with actual logo URL
   },
   {
+    name: "fully Insured",
+    logo: "/images/fullyInsured.jpg", // Replace with actual logo URL
+  },
+  {
     name: "Pilot Institute",
     logo: "/images/certified.png", // Replace with actual logo URL
   },
+  // {
+  //   name: "administration",
+  //   logo: "/images/administration.jpg", // Replace with actual logo URL
+  // },
 ];
 
 const accolades = [
@@ -64,10 +97,15 @@ const accolades = [
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState("all");
 
+  // const filteredItems =
+  //   activeTab === "all"
+  //     ? portfolioItems
+  //     : portfolioItems.filter((item) => item.category === `${activeTab}`);
+
   const filteredItems =
-    activeTab === "all"
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.category === activeTab);
+  activeTab === "all"
+    ? portfolioItems
+    : portfolioItems.filter((item) => item.category === activeTab);
 
   return (
     <motion.section
@@ -146,7 +184,7 @@ export default function Portfolio() {
               Real Estate
             </TabsTrigger>
           </TabsList>
-          <TabsContent value="all" className="mt-0">
+          <TabsContent value={activeTab} className="mt-0">
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -162,15 +200,15 @@ export default function Portfolio() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1, duration: 0.5 }}
-                    whileHover={{ scale: 1.05, transition: { duration: 0.3 } }}
+                    whileHover={{ scale: 1, transition: { duration: 0.3 } }}
+                    className="group"
                   >
                     <Card className="overflow-hidden">
                       <CardContent className="p-0">
                         <motion.img
                           src={item.image || "/placeholder.svg"}
                           alt={item.title}
-                          className="w-full h-64 object-cover"
-                          whileHover={{ scale: 1.1 }}
+                          className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                           transition={{ duration: 0.3 }}
                         />
                         <div className="p-4">
