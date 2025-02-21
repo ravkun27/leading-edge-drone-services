@@ -50,8 +50,8 @@ export default function Header() {
       localStorage.setItem("quoteSubmitted", "true");
       
       const response = await emailjs.send(
-        "service_hvjrhce", // Replace with your EmailJS Service ID
-        "template_zz47i88", // Replace with your EmailJS Template ID
+        "service_nf44a05", // Replace with your EmailJS Service ID
+        "template_ugkimkm", // Replace with your EmailJS Template ID
         formData,
         "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
       );
