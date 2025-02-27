@@ -15,6 +15,7 @@ import {
   TreePine,
   Layers,
   CuboidIcon as Cube,
+  HomeIcon,
 } from "lucide-react";
 
 const services = [
@@ -49,25 +50,25 @@ const services = [
     icon: TreePine,
   },
   {
-    title: "Precision Agriculture",
-    description: "Optimize crop management with detailed field analysis.",
-    icon: Layers,
-  },
+    title: "Residential & Commercial",
+    description: "Comprehensive solutions for homes and businesses.",
+    icon: HomeIcon, // Change the icon as needed
+}
 ];
 
 export default function Services() {
   return (
     <motion.section
       id="services"
-      className="py-20 bg-gray-100"
+      className="pt-20 pb-8 bg-gray-100"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <h2 className="text-4xl font-bold text-center mb-4 sm:mb-12">Our Services</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={index}
@@ -76,12 +77,12 @@ export default function Services() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <Card>
-                <CardHeader>
-                  <service.icon className="w-12 h-12 text-blue-600 mb-4" />
-                  <CardTitle>{service.title}</CardTitle>
+              <Card className="">
+                <CardHeader className="px-4 sm:px-6 py-2 md:py-4">
+                  <service.icon className="w-10 sm:w-12 h-10 sm:h-12 text-blue-600 mb-4" />
+                  <CardTitle className="text-xl sm:text-2xl">{service.title}</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="px-4 sm:px-6">
                   <CardDescription>{service.description}</CardDescription>
                 </CardContent>
               </Card>

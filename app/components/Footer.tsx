@@ -14,7 +14,7 @@ export default function Footer() {
       viewport={{ once: true }}
     >
       <div className="container mx-auto px-6 md:px-12">
-        <div className="grid gap-8 md:grid-cols-3 text-center md:text-left">
+        <div className="grid flex-wrap gap-8 sm:grid-cols-2 md:grid-cols-3 text-center sm:text-left">
           {/* Logo & Description */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
@@ -22,6 +22,9 @@ export default function Footer() {
             transition={{ delay: 0.2, duration: 0.5 }}
             viewport={{ once: true }}
           >
+            <Link
+              href="/"
+            >
             <img
               src={logo.src}
               alt="Leading Edge Logo"
@@ -30,19 +33,23 @@ export default function Footer() {
             <h3 className="text-2xl font-bold mt-4">
               Leading<span className="italic">E</span>dge
             </h3>
+            </Link>
             <p className="text-gray-400 mt-2">
               Elevating perspectives through innovative drone technology.
             </p>
           </motion.div>
 
+        {/* <div className=""> */}
           {/* Quick Links */}
           <motion.div
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.5 }}
             viewport={{ once: true }}
+
           >
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+            <div className="m-auto sm:m-0 text-start  w-[7rem] sm:w-0 ">
             <ul className="space-y-2">
               {[
                 { label: "Services", href: "#services" },
@@ -54,20 +61,20 @@ export default function Footer() {
                   external: true,
                 },
               ].map((link, index) => (
-                <li key={index}>
+                <li key={index} className="flex">👉🏻 
                   {link.external ? (
                     <a
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hover:text-blue-400 transition-colors"
+                      className="hover:text-blue-400 pl-1 transition-colors "
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       href={link.href}
-                      className="hover:text-blue-400 transition-colors"
+                      className="hover:text-blue-400 pl-1 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -75,6 +82,7 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            </div>
           </motion.div>
 
           {/* Contact Info */}
@@ -86,7 +94,7 @@ export default function Footer() {
           >
             <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
             <p className="text-gray-400">
-              10 Burlington Street, Burlington, MA 01803
+               Burlington, MA 01803
             </p>
             <p className="text-gray-400">
               Phone:{" "}
@@ -108,12 +116,13 @@ export default function Footer() {
             </p>
           </motion.div>
         </div>
+        </div>
 
         {/* Footer Bottom */}
-        <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
+        <div className="border-t border-gray-700 mt-10 pt-6 px-2 text-center text-gray-400">
           <p>&copy; 2025 Leading Edge Drone Services. All rights reserved.</p>
         </div>
-      </div>
+      {/* </div> */}
     </motion.footer>
   );
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import logo from "../../public/logo.png";
 import { Menu, X } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 export default function Header() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
@@ -47,16 +48,31 @@ export default function Header() {
     try {
       // For now, just simulate a successful submission
       localStorage.setItem("quoteSubmitted", "true");
-      setIsQuoteModalOpen(false);
-
-      // Reset form data
+      
+      const response = await emailjs.send(
+        "service_nf44a05", // Replace with your EmailJS Service ID
+        "template_ugkimkm", // Replace with your EmailJS Template ID
+        formData,
+        "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
+      );
+      
+      if (response.status === 200) {
+        alert("your request sent successfully!");
+        setIsQuoteModalOpen(false);
+        // Reset form data after response successfull
       setFormData({
         name: "",
         email: "",
         service: "",
         projectDetails: "",
       });
-    } catch (error) {}
+      } else {
+        alert("Failed to send request. Please try again.");
+      }
+     
+    } catch (error) {
+      alert("Error sending request.");
+    }
   };
 
   const toggleMobileMenu = () => {
@@ -75,7 +91,7 @@ export default function Header() {
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
       >
-        <div className="container mx-auto px-4 lg:px-6 py-4">
+        <div className=" mx-auto px-4 lg:px-6 py-4">
           <div className="flex items-center justify-between relative h-12">
             <Link
               href="/"
@@ -84,16 +100,16 @@ export default function Header() {
               <img
                 src={logo.src}
                 alt="Leading Edge Logo"
-                className="w-16 md:w-32 h-auto object-contain"
+                className="w-16 sm:w-20 md:w-28 lg:w-32 h-auto object-contain"
               />
-              <span className="text-2xl md:text-3xl font-extrabold text-blue-600 tracking-tight">
+              <span className="text-xl md:text-2xl lg:text-3xl font-extrabold text-blue-600 tracking-tight">
                 <span className="text-blue-800">Leading</span>
                 <span className="italic text-blue-600">E</span>
                 <span className="text-blue-800">dge</span>
               </span>
             </Link>
 
-            <nav className="hidden md:block absolute left-1/2 -translate-x-1/2">
+            <nav className="hidden md:block absolute md:left-[63%]  -translate-x-1/2">
               <ul className="flex items-center space-x-8">
                 <motion.li
                   whileHover={{ scale: 1.1 }}
@@ -211,13 +227,13 @@ export default function Header() {
         {isQuoteModalOpen && (
           <motion.div
             key="modal"
-            className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            className="fixed top-0 left-0 w-full h-full inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white rounded-lg p-8 max-w-md w-full m-4"
+              className="bg-white  rounded-lg p-8 max-w-md w-full m-4"
               initial={{ scale: 0.5 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0.5 }}
@@ -234,6 +250,7 @@ export default function Header() {
                     type="text"
                     id="name"
                     name="name"
+                    placeholder="Enter your name"
                     value={formData.name}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -248,6 +265,7 @@ export default function Header() {
                     type="email"
                     id="email"
                     name="email"
+                    placeholder="Enter your email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -270,7 +288,15 @@ export default function Header() {
                     <option value="aerial-photography">
                       Aerial Photography
                     </option>
-                    <option value="inspection">Inspection</option>
+                    <option value="Roof-Inspections">Roof Inspections</option>
+                    <option value="Solar-Panel-Inspections">Solar Panel Inspections</option>
+                    <option value="Insurance-Claims-Inspections">Insurance Claims Inspections</option>
+                    <option value="Crane-Inspection">Crane Inspection</option>
+                    <option value="Cellar-Site-inspection">Cellar Site inspection</option>
+                    <option value="Bridge Inspection">Bridge Inspection</option>
+                    <option value="Airbnb-&-Vacation-Rentals">Airbnb & Vacation Rentals                    </option>
+                    <option value="construction">Construction Sites </option>
+                    <option value="other">Ariel Real Estate Videography</option>
                     <option value="mapping">3D Mapping</option>
                     <option value="surveying">Land Surveying</option>
                     <option value="other">Other</option>
@@ -286,6 +312,7 @@ export default function Header() {
                   <textarea
                     id="projectDetails"
                     name="projectDetails"
+                    placeholder="Write here about project details"
                     value={formData.projectDetails}
                     onChange={handleInputChange}
                     rows={4}

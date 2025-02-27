@@ -11,7 +11,8 @@ import IntroductionSection from "./components/Introduction";
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden">
-      <Header />
+     
+     <Header />
       <Hero />
       <Services />
       <ProcessSteps />
