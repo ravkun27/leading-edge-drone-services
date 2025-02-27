@@ -76,16 +76,17 @@ const sponsors = [
   },
   {
     name: "fully Insured",
-    logo: "/images/fullyInsured.jpg", // Replace with actual logo URL
+    logo: "/images/fullyInsuredNew.png", // Replace with actual logo URL
+  },
+  {
+    name: "administration",
+    logo: "/images/administrationNew.png", // Replace with actual logo URL
   },
   {
     name: "Pilot Institute",
     logo: "/images/certified.png", // Replace with actual logo URL
   },
-  // {
-  //   name: "administration",
-  //   logo: "/images/administration.jpg", // Replace with actual logo URL
-  // },
+  
 ];
 
 const accolades = [
@@ -97,11 +98,6 @@ const accolades = [
 export default function Portfolio() {
   const [activeTab, setActiveTab] = useState("all");
 
-  // const filteredItems =
-  //   activeTab === "all"
-  //     ? portfolioItems
-  //     : portfolioItems.filter((item) => item.category === `${activeTab}`);
-
   const filteredItems =
   activeTab === "all"
     ? portfolioItems
@@ -110,7 +106,7 @@ export default function Portfolio() {
   return (
     <motion.section
       id="portfolio"
-      className="py-20"
+      className="pt-20 pb-8"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -122,13 +118,14 @@ export default function Portfolio() {
           <h3 className="text-2xl font-bold text-center mb-6">
             Certified & Supported By
           </h3>
-          <div className="flex justify-center gap-8">
+          <div className="flex justify-center gap-3 sm:gap-7 md:gap-8">
             {sponsors.map((sponsor, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.2, duration: 0.5 }}
+                className=""
               >
                 <img
                   src={sponsor.logo}
@@ -159,9 +156,9 @@ export default function Portfolio() {
         </div>
 
         {/* Portfolio Section */}
-        <h2 className="text-4xl font-bold text-center mb-12">Our Portfolio</h2>
-        <Tabs defaultValue="all" className="w-full">
-          <TabsList className="flex justify-center mb-8">
+        <h2 className="text-4xl font-bold text-center mb-4 sm:mb-12">Our Portfolio</h2>
+        <Tabs defaultValue="all" className="w-full ">
+          <TabsList className="flex justify-center mb-8 ">
             <TabsTrigger value="all" onClick={() => setActiveTab("all")}>
               All
             </TabsTrigger>

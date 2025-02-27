@@ -53,14 +53,14 @@ export default function Contact() {
   return (
     <motion.section
       id="contact"
-      className="py-20 bg-gray-100"
+      className="pt-20 pb-8 bg-gray-100"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center mb-12">Contact Us</h2>
+        <h2 className="text-4xl font-bold text-center mb-4 sm:mb-12">Contact Us</h2>
         <motion.div
           className="max-w-md mx-auto"
           initial={{ y: 50, opacity: 0 }}
@@ -70,7 +70,7 @@ export default function Contact() {
         >
           <form onSubmit={handleSubmit}>
             <motion.div
-              className="mb-4"
+              className="mb-2 md:mb-4"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
@@ -85,7 +85,7 @@ export default function Contact() {
               />
             </motion.div>
             <motion.div
-              className="mb-4"
+              className="mb-2 md:mb-4"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -100,7 +100,7 @@ export default function Contact() {
               />
             </motion.div>
             <motion.div
-              className="mb-4"
+              className="mb-2 md:mb-4"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}

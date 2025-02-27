@@ -18,7 +18,7 @@ export default function IntroductionSection() {
 
   return (
     <motion.section
-      className="min-h-screen flex items-center justify-center bg-gray-50 py-20 px-4 sm:px-6 lg:px-8"
+      className="min-h-screen flex items-center justify-center bg-gray-50 pt-20 pb-8 px-4 sm:px-6 lg:px-8"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 1 }}
@@ -26,13 +26,13 @@ export default function IntroductionSection() {
       <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         {/* Left Side: Text and Buttons */}
         <motion.div
-          className="space-y-8 text-center lg:text-left"
+          className="space-y-4 sm:space-y-8 text-center lg:text-left"
           initial={{ x: -50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.h1
-            className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight"
+            className=" text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -70,7 +70,7 @@ export default function IntroductionSection() {
 
         {/* Right Side: Drone Video */}
         <motion.div
-          className="relative w-full h-[500px] lg:h-[700px] overflow-hidden rounded-lg shadow-2xl bg-black"
+          className="relative w-full h-[400px] sm:[450px] lg:h-[550px] overflow-hidden rounded-lg shadow-2xl bg-black"
           initial={{ x: 50, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}

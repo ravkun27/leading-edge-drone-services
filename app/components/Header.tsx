@@ -100,16 +100,16 @@ export default function Header() {
               <img
                 src={logo.src}
                 alt="Leading Edge Logo"
-                className="w-16 md:w-32 h-auto object-contain"
+                className="w-16 sm:w-20 md:w-28 lg:w-32 h-auto object-contain"
               />
-              <span className="text-2xl md:text-3xl font-extrabold text-blue-600 tracking-tight">
+              <span className="text-xl md:text-2xl lg:text-3xl font-extrabold text-blue-600 tracking-tight">
                 <span className="text-blue-800">Leading</span>
                 <span className="italic text-blue-600">E</span>
                 <span className="text-blue-800">dge</span>
               </span>
             </Link>
 
-            <nav className="hidden md:block absolute md:left-[63%] lg:left-1/2 -translate-x-1/2">
+            <nav className="hidden md:block absolute md:left-[63%]  -translate-x-1/2">
               <ul className="flex items-center space-x-8">
                 <motion.li
                   whileHover={{ scale: 1.1 }}
@@ -288,7 +288,15 @@ export default function Header() {
                     <option value="aerial-photography">
                       Aerial Photography
                     </option>
-                    <option value="inspection">Inspection</option>
+                    <option value="Roof-Inspections">Roof Inspections</option>
+                    <option value="Solar-Panel-Inspections">Solar Panel Inspections</option>
+                    <option value="Insurance-Claims-Inspections">Insurance Claims Inspections</option>
+                    <option value="Crane-Inspection">Crane Inspection</option>
+                    <option value="Cellar-Site-inspection">Cellar Site inspection</option>
+                    <option value="Bridge Inspection">Bridge Inspection</option>
+                    <option value="Airbnb-&-Vacation-Rentals">Airbnb & Vacation Rentals                    </option>
+                    <option value="construction">Construction Sites </option>
+                    <option value="other">Ariel Real Estate Videography</option>
                     <option value="mapping">3D Mapping</option>
                     <option value="surveying">Land Surveying</option>
                     <option value="other">Other</option>

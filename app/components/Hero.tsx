@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
  import mavicImage from "/mavic.webp";
+import { Link } from "lucide-react";
 
 export default function Hero() {
   const videoUrls = [
     "https://cdn.pixabay.com/video/2020/04/07/35258-407130715_large.mp4",
     "https://cdn.pixabay.com/video/2018/01/20/13851-252799027_large.mp4",
     "https://cdn.pixabay.com/video/2023/10/08/184069-872413642_tiny.mp4",
+    "https://www.pexels.com/video/aerial-view-of-historic-building-with-surrounding-grounds-29204150/",
   ];
 
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
@@ -27,7 +29,7 @@ export default function Hero() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 h-[90%] sm:h-full">
           {/* Background video with transition */}
           <motion.video
             key={currentVideoIndex} // key prop will trigger re-mounting the video
@@ -52,25 +54,25 @@ export default function Hero() {
         </div>
    
         <motion.div
-  className="left-12 sm:left-2/3 w-[7rem] sm:w-[20rem] h-[7rem] sm:h-[20rem]  absolute z-20"
-  animate={{
-    y: [0, -100, 60, -10, 0], // Increased vertical movement
-    x: [0, -80, 100, -10, 0], // Increased horizontal movement
-  }}
-  transition={{
-    duration: 4, // Total duration of one cycle
-    repeat: Infinity, // Infinite looping
-    repeatType: "mirror", // Moves back and forth smoothly
-    ease: "easeInOut", // Smooth easing effect
-  }}
->
-  <motion.img
-    // src="/mavic.webp"
-    src="/image.png"
-    alt="drone img"
-    className="w-full object-cover transition-transform duration-300"
-  />
-</motion.div>
+            className="left-24 bottom-[70%] sm:left-[60%] sm:bottom-[10%] lg:bottom-[40%] lg:left-2/3 w-[7rem] sm:w-[12rem] lg:w-[20rem] h-[7rem] sm:h-[12rem] lg:h-[20rem] absolute z-50 sm:z-20"
+            animate={{
+              y: [0, -30, -40, -60, -50, 0], // Smooth up and down motion
+              x: [0, 100, -20, 50, 10, 0],  // Sideways drift
+              rotate: [10, 2, -2, 3, -3, 0], // Slight tilting
+            }}
+            transition={{
+              duration: 4, // Total duration of one cycle
+              repeat: Infinity, // Infinite looping
+              repeatType: "mirror", // Moves back and forth smoothly
+              ease: "easeInOut", // Smooth easing effect
+            }}
+           >
+           <motion.img
+             src="/image.png"
+             alt="drone img"
+             className="w-full object-cover transition-transform duration-300"
+            />
+        </motion.div>
 
 
         <motion.div
@@ -102,11 +104,12 @@ export default function Hero() {
             transition={{ delay: 0.2, duration: 0.5 }}
             style={{ transformOrigin: "center" }} // Center the scale transformation
           >
+          
             <Button
               className="cursor-pointer hover:scale-110 transition-all duration-300"
               size="lg"
             >
-              Explore Our Services
+               Explore Our Services
             </Button>
           </motion.div>
         </motion.div>
