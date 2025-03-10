@@ -4,7 +4,9 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
  import mavicImage from "/mavic.webp";
-import { Link } from "lucide-react";
+// import { Link } from "lucide-react";
+import Link from "next/link";
+
 
 export default function Hero() {
   const videoUrls = [
@@ -53,7 +55,7 @@ export default function Hero() {
           {/* Optional overlay to darken the video */}
         </div>
    
-        <motion.div
+        {/* <motion.div
             className="left-24 bottom-[70%] sm:left-[60%] sm:bottom-[10%] lg:bottom-[40%] lg:left-2/3 w-[7rem] sm:w-[12rem] lg:w-[20rem] h-[7rem] sm:h-[12rem] lg:h-[20rem] absolute z-50 sm:z-20"
             animate={{
               y: [0, -30, -40, -60, -50, 0], // Smooth up and down motion
@@ -72,8 +74,52 @@ export default function Hero() {
              alt="drone img"
              className="w-full object-cover transition-transform duration-300"
             />
-        </motion.div>
+        </motion.div> */}
 
+         {/* <motion.div
+           className="left-24 bottom-[70%] sm:left-[60%] sm:bottom-[10%] lg:bottom-[40%] lg:left-2/3 w-[7rem] sm:w-[12rem] lg:w-[20rem] h-[7rem] sm:h-[12rem] lg:h-[20rem] absolute z-50 sm:z-20"
+           animate={{
+             y: [0, -30, -40, -60, -50, -20, 0],  // More keyframes for smoothness
+             x: [0, 80, -20, 40, 10, -10, 0], // Subtle drift
+             rotate: [5, 2, -3, 3, -2, 0], // Gentle tilting
+             opacity: [0, 1, 1, 0], // Fade in & out effect
+           }}
+           transition={{
+             duration: 5, // Slightly longer for smoothness
+             repeat: Infinity,
+             repeatType: "mirror",
+             ease: "easeInOut",
+           }}
+         >
+           <motion.img
+             src="/image.png"
+             alt="drone img"
+             className="w-full object-cover transition-transform duration-300"
+           />
+         </motion.div> */}
+
+         <motion.div
+           className="left-24 bottom-[70%] sm:left-[60%] sm:bottom-[10%] lg:bottom-[40%] lg:left-2/3 w-[7rem] sm:w-[12rem] lg:w-[20rem] h-[7rem] sm:h-[12rem] lg:h-[20rem] absolute z-50 sm:z-20"
+           animate={{
+             y: [0, -30, -40, -60, -50, -20, 0],  
+             x: [0, 80, -20, 40, 10, -10, 0],  
+             rotate: [3, 1, -2, 2, -1, 0],  
+             opacity: [0, 0.5, 1, 1, 0.5, 0], 
+           }}
+           transition={{
+             duration: 6, 
+             repeat: Infinity,
+             repeatType: "mirror",
+             ease: "easeInOut", 
+           }}
+         >
+           <motion.img
+             src="/image.png"
+             alt="drone img"
+             className="w-full object-cover transition-transform duration-300"
+           />
+         </motion.div>
+         
 
         <motion.div
           className="container mt-8 sm:m-0 mx-auto px-4 z-10 text-white"
@@ -105,12 +151,12 @@ export default function Hero() {
             style={{ transformOrigin: "center" }} // Center the scale transformation
           >
           
-            <Button
-              className="cursor-pointer hover:scale-110 transition-all duration-300"
-              size="lg"
-            >
-               Explore Our Services
+          <Link href="#services" className="hover:text-blue-600 font-medium">
+            <Button className="cursor-pointer hover:scale-110 transition-all duration-300" size="lg">
+              Explore Our Services
             </Button>
+          </Link>
+
           </motion.div>
         </motion.div>
       </motion.section>

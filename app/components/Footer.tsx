@@ -57,7 +57,8 @@ export default function Footer() {
                 { label: "Contact", href: "#contact" },
                 {
                   label: "Merchandise",
-                  href: "https://admin.shopify.com/store/d142b3-15/themes?appLoadId=327c7fab-8442-49c8-9c94-2db6ae80488c",
+                  // href: "https://admin.shopify.com/store/d142b3-15/themes?appLoadId=327c7fab-8442-49c8-9c94-2db6ae80488c",
+                  href: "https://newstartrc.myshopify.com/ ",
                   external: true,
                 },
               ].map((link, index) => (

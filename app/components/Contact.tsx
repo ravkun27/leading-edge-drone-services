@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import WorkWithUs from "./WorkWithUs";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -26,14 +27,23 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
 
+
+    const formDataEdit = {
+      ...formData,
+      to_name: "Rohit kumar",           // admin name
+      mobile: 9654853181,                // if you need user mobile then replace it otherwise set your own mobile because in template mobile field is define
+      to_email: "rohitkumar9643017@gmail.com",   // admin email id
+    };
+
+
     try {
-      console.log("form data is ", formData);
+      console.log("form data is ", formDataEdit);
       
       const response = await emailjs.send(
-        "service_nf44a05", // Replace with your EmailJS Service ID
-        "template_ugkimkm", // Replace with your EmailJS Template ID
-        formData,
-        "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
+        "service_nf44a5", // Replace with your EmailJS Service ID
+        "template_ugkikm", // Replace with your EmailJS Template ID
+        formDataEdit,
+        "3MdbeSJOkbN9IOP0" // Replace with your EmailJS Public Key
       );
 
       if (response.status === 200) {
@@ -53,13 +63,17 @@ export default function Contact() {
   return (
     <motion.section
       id="contact"
-      className="pt-20 pb-8 bg-gray-100"
+      className="pt-20 pb-8 bg-gray-100 flex flex-row-reverse sm:flex-col  justify-around"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      <div className="container mx-auto px-4">
+      {/* work with us form */}
+      
+
+      {/* contact form  */}
+      <div className=" container w-full md:w-[50%] mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-4 sm:mb-12">Contact Us</h2>
         <motion.div
           className="max-w-md mx-auto"
@@ -70,7 +84,7 @@ export default function Contact() {
         >
           <form onSubmit={handleSubmit}>
             <motion.div
-              className="mb-2 md:mb-4"
+              className="mb-2 md:mb-4 shadow-lg"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 }}
@@ -85,7 +99,7 @@ export default function Contact() {
               />
             </motion.div>
             <motion.div
-              className="mb-2 md:mb-4"
+              className="mb-2 md:mb-4 shadow-lg"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -100,7 +114,7 @@ export default function Contact() {
               />
             </motion.div>
             <motion.div
-              className="mb-2 md:mb-4"
+              className="mb-2 md:mb-4 shadow-lg"
               initial={{ x: -50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -113,14 +127,17 @@ export default function Contact() {
                 required
               />
             </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="shadow-lg mt-4 md:mt-8">
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? "Sending..." : "Send Message"}
               </Button>
             </motion.div>
+            
           </form>
+          <WorkWithUs/>
         </motion.div>
       </div>
     </motion.section>
   );
 }
+
