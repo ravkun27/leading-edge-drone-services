@@ -18,18 +18,6 @@ export default function Header() {
     projectDetails: "",
   });
 
-  useEffect(() => {
-    const hasSubmitted = localStorage.getItem("quoteSubmitted");
-
-    if (!hasSubmitted) {
-      const timer = setTimeout(() => {
-        setIsQuoteModalOpen(true);
-      }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -48,28 +36,27 @@ export default function Header() {
     try {
       // For now, just simulate a successful submission
       localStorage.setItem("quoteSubmitted", "true");
-      
+
       const response = await emailjs.send(
         "service_nf44a05", // Replace with your EmailJS Service ID
         "template_ugkimkm", // Replace with your EmailJS Template ID
         formData,
         "3MdbeSJOkbrN9IOP0" // Replace with your EmailJS Public Key
       );
-      
+
       if (response.status === 200) {
         alert("your request sent successfully!");
         setIsQuoteModalOpen(false);
         // Reset form data after response successfull
-      setFormData({
-        name: "",
-        email: "",
-        service: "",
-        projectDetails: "",
-      });
+        setFormData({
+          name: "",
+          email: "",
+          service: "",
+          projectDetails: "",
+        });
       } else {
         alert("Failed to send request. Please try again.");
       }
-     
     } catch (error) {
       alert("Error sending request.");
     }
@@ -289,12 +276,20 @@ export default function Header() {
                       Aerial Photography
                     </option>
                     <option value="Roof-Inspections">Roof Inspections</option>
-                    <option value="Solar-Panel-Inspections">Solar Panel Inspections</option>
-                    <option value="Insurance-Claims-Inspections">Insurance Claims Inspections</option>
+                    <option value="Solar-Panel-Inspections">
+                      Solar Panel Inspections
+                    </option>
+                    <option value="Insurance-Claims-Inspections">
+                      Insurance Claims Inspections
+                    </option>
                     <option value="Crane-Inspection">Crane Inspection</option>
-                    <option value="Cellar-Site-inspection">Cellar Site inspection</option>
+                    <option value="Cellar-Site-inspection">
+                      Cellar Site inspection
+                    </option>
                     <option value="Bridge Inspection">Bridge Inspection</option>
-                    <option value="Airbnb-&-Vacation-Rentals">Airbnb & Vacation Rentals                    </option>
+                    <option value="Airbnb-&-Vacation-Rentals">
+                      Airbnb & Vacation Rentals{" "}
+                    </option>
                     <option value="construction">Construction Sites </option>
                     <option value="other">Ariel Real Estate Videography</option>
                     <option value="mapping">3D Mapping</option>
