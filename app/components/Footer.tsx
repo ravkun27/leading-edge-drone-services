@@ -47,38 +47,39 @@ export default function Footer() {
           >
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <div className="m-auto sm:m-0 text-start  w-[7rem] sm:w-0 ">
-              <ul className="space-y-2">
-                {[
-                  { label: "Services", href: "#services" },
-                  { label: "Portfolio", href: "#portfolio" },
-                  { label: "Contact", href: "#contact" },
-                  {
-                    label: "Merchandise",
-                    href: "https://admin.shopify.com/store/d142b3-15/themes?appLoadId=327c7fab-8442-49c8-9c94-2db6ae80488c",
-                    external: true,
-                  },
-                ].map((link, index) => (
-                  <li key={index} className="flex">
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="hover:text-blue-400 pl-1 transition-colors "
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="hover:text-blue-400 pl-1 transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
+            <ul className="space-y-2">
+              {[
+                { label: "Services", href: "#services" },
+                { label: "Portfolio", href: "#portfolio" },
+                { label: "Contact", href: "#contact" },
+                {
+                  label: "Merchandise",
+                  // href: "https://admin.shopify.com/store/d142b3-15/themes?appLoadId=327c7fab-8442-49c8-9c94-2db6ae80488c",
+                  href: "https://newstartrc.myshopify.com/ ",
+                  external: true,
+                },
+              ].map((link, index) => (
+                <li key={index} className="flex">👉🏻 
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-blue-400 pl-1 transition-colors "
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="hover:text-blue-400 pl-1 transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
             </div>
           </motion.div>
 

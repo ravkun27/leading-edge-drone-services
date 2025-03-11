@@ -55,11 +55,11 @@ export default function IntroductionSection() {
             whileInView={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-all duration-300">
+            {/* <Button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-all duration-300">
               Book Now
-            </Button>
+            </Button> */}
             <Button
-              className="bg-transparent border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white py-3 px-6 rounded-lg transition-all duration-300"
+              className="bg-blue-700 border hover:bg-blue-500 hover:text-purple-800 py-3 px-8 rounded-lg transition-all duration-300"
               onClick={handleEmailClick}
               aria-label="Learn more about our services via email"
             >
