@@ -89,7 +89,7 @@ export default function Contact() {
           Get in touch with us
         </h2>
         <motion.div
-          className="w-full mx-auto flex flex-col md:grid md:grid-cols-2 gap-6 md:p-6"
+          className="w-full mx-auto flex justify-center items-center gap-6 md:p-2"
           initial={{ y: 50, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -98,9 +98,9 @@ export default function Contact() {
           {/* General Contact Form */}
           <motion.form
             onSubmit={handleSubmit}
-            className="p-6 bg-white shadow-lg rounded-lg"
+            className="w-[50%] p-6 bg-white shadow-lg rounded-lg max-w-md"
           >
-            <h2 className="text-xl font-semibold  mb-4">Contact Us</h2>
+            <h2 className="text-xl font-semibold text-center mb-4">Contact Us</h2>
 
             <motion.div
               className="mb-2 md:mb-4 shadow-lg"
