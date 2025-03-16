@@ -58,13 +58,13 @@ export default function IntroductionSection() {
             {/* <Button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg transition-all duration-300">
               Book Now
             </Button> */}
-            <Button
-              className="bg-blue-700 border hover:bg-blue-500 hover:text-purple-800 py-3 px-8 rounded-lg transition-all duration-300"
-              onClick={handleEmailClick}
+            <a
+              className="bg-blue-700 border hover:bg-blue-500 text-white py-3 px-8 rounded-lg transition-all duration-300"
+              href="mailto:Admin@MyFlightTeam.com"
               aria-label="Learn more about our services via email"
             >
               Learn More
-            </Button>
+            </a>
           </motion.div>
         </motion.div>
 
