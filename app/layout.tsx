@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "SkyView Drones - Photography & Mapping Services",
+  title: "Leading Edge - Photography & Mapping Services",
   description:
     "Professional drone photography and mapping services for various industries.",
   icons: "/logo.png",

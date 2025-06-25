@@ -2,9 +2,27 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Hero() {
+  const [xValues, setXValues] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    // Set realistic horizontal movement based on screen size
+    const screenWidth = window.innerWidth;
+
+    if (screenWidth < 640) {
+      // Mobile screens
+      setXValues([180, 30, -20, 10, -10, 120]);
+    } else if (screenWidth < 1024) {
+      // Tablets
+      setXValues([50, 80, 60, 70, 50]);
+    } else {
+      // Desktops
+      setXValues([300, 200, 180, 160, 300]);
+    }
+  }, []);
+
   const videoUrls = [
     "https://cdn.pixabay.com/video/2020/04/07/35258-407130715_large.mp4",
     "https://cdn.pixabay.com/video/2018/01/20/13851-252799027_large.mp4",
@@ -22,12 +40,12 @@ export default function Hero() {
   return (
     <>
       <motion.section
-        className="relative h-screen flex items-center"
+        className="relative h-screen flex items-center justify-center overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 z-0 h-[90%] sm:h-full">
+        <div className="absolute inset-0 z-0 h-full">
           {/* Background video with transition */}
           <motion.video
             key={currentVideoIndex} // key prop will trigger re-mounting the video
@@ -52,26 +70,25 @@ export default function Hero() {
         </div>
 
         <motion.div
-          className="absolute z-50 w-[7rem] sm:w-[12rem] lg:w-[30rem] 
-             h-[7rem] sm:h-[12rem] lg:h-[25rem]"
-          initial={{ x: "120vw", y: 50, opacity: 0, rotate: 10 }} // Starts off-screen
+          className="absolute top-20 left-1/2 transform -translate-x-1/2 w-48 sm:w-64 md:w-80 lg:w-[30rem] h-48 sm:h-64 md:h-80 lg:h-[25rem] z-50"
+          initial={{ x: 0, y: 50, opacity: 0, rotate: 5 }}
           animate={{
-            x: ["120vw", "68vw", "63vw", "66vw", "60vw", "65vw", "120vw"], // Enters, drifts, exits
+            x: xValues,
             y: [50, 40, 45, 35, 50, 42, 50], // Natural hover up & down
-            opacity: [0, 1, 1, 1, 1, 1, 0], // Fades in and out
+            opacity: [0, 1, 1, 1, 1, 1, 0],
             rotate: [10, 5, 2, 0, -2, 2, 5, 10], // Realistic tilting while hovering
-            scale: [1, 1.03, 1, 1.02, 1, 1.01, 1], // Perspective shift for realism
+            scale: [1, 1.02, 1, 1.01, 1],
           }}
           transition={{
-            duration: 10, // Slow & natural movement
+            duration: 10,
             ease: "easeInOut",
-            repeat: Infinity, // Infinite loop
-            repeatDelay: 3, // Pause before repeating
-            times: [0, 0.15, 0.3, 0.5, 0.7, 0.85, 1], // Smooth interpolation
+            repeat: Infinity,
+            repeatDelay: 2,
+            times: [0, 0.2, 0.4, 0.6, 0.8, 1],
           }}
         >
           <motion.img
-            src="/image.png" // Change to actual image path
+            src="/image.png"
             alt="drone img"
             className="w-full h-full object-contain"
           />

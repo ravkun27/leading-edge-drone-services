@@ -52,7 +52,7 @@ export default function Header() {
   return (
     <>
       <motion.header
-        className="fixed w-full bg-white/80 backdrop-blur-md z-50 shadow-md"
+        className="fixed w-full bg-white/80 backdrop-blur-md z-[500] shadow-md"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}

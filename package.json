@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "export": "next build && next export"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -41,7 +42,6 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.8.3",
     "class-variance-authority": "^0.7.1",
-    "cloudinary": "^2.5.1",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
     "date-fns": "^3.6.0",
@@ -50,7 +50,9 @@
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
     "next": "14.2.16",
+    "next-cloudinary": "^6.16.0",
     "next-themes": "^0.4.4",
+    "nodemailer": "^6.10.0",
     "react": "^18.3.1",
     "react-day-picker": "8.10.1",
     "react-dom": "^18.3.1",
@@ -61,6 +63,8 @@
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
+    "upload-js": "^2.24.3",
+    "uploadcare-widget": "^3.21.8",
     "vaul": "^0.9.6",
     "zod": "^3.24.1"
   },
