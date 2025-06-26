@@ -6,10 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
 import { Textarea } from "@/components/ui/textarea";
-import emailjs from "@emailjs/browser";
-import { Upload } from "upload-js";
-
-const upload = Upload({ apiKey: "public_G22nhkLPo47VfnqYCWthuNJ8PfXr" });
+import { Upload, CheckCircle, XCircle, Loader2 } from "lucide-react";
 
 export default function WorkWithUs() {
   const [formData, setFormData] = useState({
@@ -33,14 +30,17 @@ export default function WorkWithUs() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+
     if (file.type !== "application/pdf") {
       setErrorMessage("Please upload a PDF file only");
       return;
     }
+
     if (file.size > 10 * 1024 * 1024) {
       setErrorMessage("File size should not exceed 10MB");
       return;
     }
+
     setSelectedFile(file);
     setErrorMessage("");
   };
@@ -48,6 +48,7 @@ export default function WorkWithUs() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoadingStatus("sending");
+    setErrorMessage("");
 
     if (!selectedFile) {
       setErrorMessage("Please upload a resume file");
@@ -56,33 +57,34 @@ export default function WorkWithUs() {
     }
 
     try {
-      const uploadResult = await upload.uploadFile(selectedFile, {
-        path: { folderPath: "/resumes" },
+      // Create form data for API submission
+      const submitFormData = new FormData();
+      submitFormData.append("name", formData.name);
+      submitFormData.append("email", formData.email);
+      submitFormData.append("message", formData.message);
+      submitFormData.append("resume", selectedFile);
+
+      const response = await fetch("/api/submit-application", {
+        method: "POST",
+        body: submitFormData,
       });
 
-      const resumeUrl = uploadResult.fileUrl;
+      const result = await response.json();
 
-      await emailjs.send(
-        // "service_6jxwplg",
-        "service_td7w8mc",
-        // "template_dyy9lka",
-        "template_xgzaj6a",
-        {
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          resume_link: resumeUrl,
-        },
-        // "NPtSw5j44Sl-MG8bx"
-        "MySmy2UBA3kQBc_YQ"
-      );
+      if (!response.ok) {
+        throw new Error(result.error || "Submission failed");
+      }
 
+      // Reset form on success
       setFormData({ name: "", email: "", message: "" });
       setSelectedFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
       setLoadingStatus("sent");
     } catch (error) {
-      setErrorMessage("Submission failed");
+      console.error("Submission error:", error);
+      setErrorMessage(
+        error instanceof Error ? error.message : "Submission failed"
+      );
       setLoadingStatus("error");
     } finally {
       setTimeout(() => setLoadingStatus("idle"), 3000);
@@ -91,84 +93,178 @@ export default function WorkWithUs() {
 
   return (
     <motion.div
-      className="p-6 bg-white shadow-xl rounded-xl space-y-4 h-full"
+      className="p-8 md:p-10 bg-white border-2 border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      <h2 className="text-2xl font-semibold text-center">Work With Us</h2>
+      {/* Subtle geometric decoration */}
+      <div className="absolute top-0 left-0 w-32 h-32 border border-gray-100 rounded-full -ml-16 -mt-16 opacity-30"></div>
+      <div className="absolute bottom-0 right-0 w-24 h-24 border border-gray-100 rounded-full -mr-12 -mb-12 opacity-20"></div>
 
-      {loadingStatus === "sent" && (
-        <div className="p-4 bg-green-100 text-green-700 rounded-md">
-          Application submitted successfully!
+      <div className="relative z-10">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-2">
+            Join LeadingEdge
+          </h2>
+          <div className="w-16 h-0.5 bg-black mx-auto mb-4"></div>
+          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+            At LeadingEdge, drone operators drive innovation and foster growth.
+            Submit your resume and expertise details to be considered.
+          </p>
         </div>
-      )}
-      {errorMessage && (
-        <div className="p-4 bg-red-100 text-red-700 rounded-md">
-          {errorMessage}
-        </div>
-      )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          type="text"
-          name="name"
-          placeholder="Full Name"
-          value={formData?.name}
-          onChange={handleChange}
-          className="py-6 text-lg"
-          required
-        />
-        <Input
-          type="email"
-          name="email"
-          placeholder="your.email@example.com"
-          value={formData?.email}
-          onChange={handleChange}
-          className="py-4 text-lg"
-          required
-        />
-        <Textarea
-          name="message"
-          placeholder="Your qualifications and experience..."
-          value={formData?.message}
-          onChange={handleChange}
-          className="h-28 text-lg"
-          required
-        />
-
-        <div className="space-y-4">
-          <input
-            type="file"
-            ref={fileInputRef}
-            accept=".pdf"
-            onChange={handleFileChange}
-            className="hidden"
-          />
-          <Button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            className="w-full py-6 text-lg"
-            variant="outline"
+        {/* Status Messages */}
+        {loadingStatus === "sent" && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 p-4 bg-gray-50 border-2 border-gray-200 rounded-xl flex items-center"
           >
-            {selectedFile
-              ? `Selected: ${selectedFile.name}`
-              : "Upload Resume (PDF)"}
-          </Button>
+            <CheckCircle className="w-5 h-5 text-black mr-3" />
+            <div>
+              <p className="text-black font-semibold">
+                Application submitted successfully!
+              </p>
+              <p className="text-gray-600 text-sm">
+                We'll review your application and get back to you soon.
+              </p>
+            </div>
+          </motion.div>
+        )}
 
-          <Button
-            type="submit"
-            className="w-full py-6 text-lg"
-            disabled={loadingStatus === "sending"}
+        {errorMessage && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 p-4 bg-gray-50 border-2 border-gray-300 rounded-xl flex items-center"
           >
-            {loadingStatus === "sending" && "Submitting..."}
-            {loadingStatus === "sent" && "Submitted ✓"}
-            {loadingStatus === "error" && "Failed to Submit ❌"}
-            {loadingStatus === "idle" && "Submit Application"}
-          </Button>
-        </div>
-      </form>
+            <XCircle className="w-5 h-5 text-gray-700 mr-3" />
+            <div>
+              <p className="text-black font-semibold">Error</p>
+              <p className="text-gray-600 text-sm">{errorMessage}</p>
+            </div>
+          </motion.div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <label
+                htmlFor="name"
+                className="block text-sm font-semibold text-black mb-3"
+              >
+                Full Name *
+              </label>
+              <Input
+                type="text"
+                name="name"
+                placeholder="Enter your full name"
+                value={formData.name}
+                onChange={handleChange}
+                className="h-14 text-base border-2 border-gray-200 focus:border-black focus:ring-0 rounded-xl transition-all duration-200 bg-white"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-semibold text-black mb-3"
+              >
+                Email Address *
+              </label>
+              <Input
+                type="email"
+                name="email"
+                placeholder="your.email@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="h-14 text-base border-2 border-gray-200 focus:border-black focus:ring-0 rounded-xl transition-all duration-200 bg-white"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="message"
+              className="block text-sm font-semibold text-black mb-3"
+            >
+              Your Message *
+            </label>
+            <Textarea
+              name="message"
+              placeholder="Tell us about your qualifications, experience, and why you'd like to join our team..."
+              value={formData.message}
+              onChange={handleChange}
+              className="min-h-[140px] text-base border-2 border-gray-200 focus:border-black focus:ring-0 rounded-xl resize-none transition-all duration-200 bg-white"
+              required
+            />
+          </div>
+
+          <div className="space-y-4">
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept=".pdf"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+
+            <div>
+              <label className="block text-sm font-semibold text-black mb-3">
+                Resume/CV *
+              </label>
+              <Button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full h-14 text-base font-medium bg-white hover:bg-gray-50 text-black border-2 border-gray-200 hover:border-black transition-all duration-200 rounded-xl flex items-center justify-center"
+                variant="outline"
+              >
+                <Upload className="w-5 h-5 mr-2" />
+                {selectedFile
+                  ? `Selected: ${selectedFile.name}`
+                  : "Upload Resume (PDF only)"}
+              </Button>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Maximum file size: 10MB
+              </p>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full h-14 text-lg font-semibold bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
+              disabled={loadingStatus === "sending"}
+            >
+              {loadingStatus === "sending" && (
+                <div className="flex items-center justify-center">
+                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                  Submitting Application...
+                </div>
+              )}
+              {loadingStatus === "sent" && (
+                <div className="flex items-center justify-center">
+                  <CheckCircle className="w-5 h-5 mr-2" />
+                  Application Submitted!
+                </div>
+              )}
+              {loadingStatus === "error" && (
+                <div className="flex items-center justify-center">
+                  <XCircle className="w-5 h-5 mr-2" />
+                  Try Again
+                </div>
+              )}
+              {loadingStatus === "idle" && (
+                <div className="flex items-center justify-center">
+                  <Upload className="w-5 h-5 mr-2" />
+                  Submit Application
+                </div>
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
     </motion.div>
   );
 }
