@@ -120,7 +120,7 @@ export default function WorkWithUs() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-6 p-4 bg-gray-50 border-2 border-gray-200 rounded-xl flex items-center"
+            className="absolute top-10 right-10 mb-6 p-4 bg-gray-50 border-2 border-gray-200 rounded-xl flex items-center"
           >
             <CheckCircle className="w-5 h-5 text-black mr-3" />
             <div>
@@ -138,7 +138,7 @@ export default function WorkWithUs() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-6 p-4 bg-gray-50 border-2 border-gray-300 rounded-xl flex items-center"
+            className="absolute top-10 right-10 mb-6 p-4 bg-gray-50 border-2 border-gray-300 rounded-xl flex items-center z-[99999]"
           >
             <XCircle className="w-5 h-5 text-gray-700 mr-3" />
             <div>
