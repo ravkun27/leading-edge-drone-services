@@ -1,6 +1,5 @@
 // lib/cors.ts
 import { NextRequest, NextResponse } from "next/server";
-
 const ALLOWED_ORIGINS = [
   "http://localhost:3000",
   "https://myflightteam.com", // your production domain
