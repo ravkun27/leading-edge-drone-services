@@ -28,7 +28,7 @@ export default function Contact() {
 
     try {
       const response = await fetch(
-        "https://leading-edge-drone-services.vercel.app/api/contact",
+        "https://leading-edge-drone-services.vercel.app/api/proxy-contact",
         {
           method: "POST",
           headers: {
