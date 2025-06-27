@@ -2,42 +2,39 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const ALLOWED_ORIGINS = [
-  "http://localhost:3000", // dev
+  "http://localhost:3000",
   "https://myflightteam.com", // production
+  "https://leading-edge-drone-services.vercel.app",
 ];
 
-const DEFAULT_HEADERS = {
-  "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
-
-export function withCORS(req: NextRequest, res: NextResponse): NextResponse {
-  const origin = req.headers.get("origin") || "";
-
-  const isAllowedOrigin = ALLOWED_ORIGINS.includes(origin);
-
-  const headers = {
-    ...DEFAULT_HEADERS,
-    "Access-Control-Allow-Origin": isAllowedOrigin ? origin : "",
-  };
-
-  res.headers.set(
-    "Access-Control-Allow-Origin",
-    headers["Access-Control-Allow-Origin"]
-  );
-  res.headers.set(
-    "Access-Control-Allow-Methods",
-    headers["Access-Control-Allow-Methods"]
-  );
-  res.headers.set(
-    "Access-Control-Allow-Headers",
-    headers["Access-Control-Allow-Headers"]
-  );
-
-  return res;
+export function handlePreflight(request: NextRequest) {
+  const origin = request.headers.get("origin") ?? "*";
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": ALLOWED_ORIGINS.includes(origin)
+        ? origin
+        : "*",
+      "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type,Authorization",
+      "Access-Control-Max-Age": "86400",
+    },
+  });
 }
 
-export function handlePreflight(req: NextRequest) {
-  const response = new NextResponse(null, { status: 204 });
-  return withCORS(req, response);
+export function withCORS(request: NextRequest, response: NextResponse) {
+  const origin = request.headers.get("origin") ?? "*";
+  response.headers.set(
+    "Access-Control-Allow-Origin",
+    ALLOWED_ORIGINS.includes(origin) ? origin : "*"
+  );
+  response.headers.set(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,DELETE,OPTIONS"
+  );
+  response.headers.set(
+    "Access-Control-Allow-Headers",
+    "Content-Type,Authorization"
+  );
+  return response;
 }
