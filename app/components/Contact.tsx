@@ -27,13 +27,16 @@ export default function Contact() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        "https://leading-edge-drone-services.vercel.app/api/contact",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
 
@@ -107,57 +110,16 @@ export default function Contact() {
 
               <div className="relative z-10">
                 <div className="text-center mb-8">
-                  <h3 className="text-2xl md:text-3xl font-bold text-black mb-2">
+                  <h3 className="text-2xl font-bold text-black mb-2">
                     Send us a Message
                   </h3>
                   <div className="w-16 h-0.5 bg-black mx-auto mb-4"></div>
-                  <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+                  <p className="text-xs text-gray-600 leading-relaxed">
                     Have questions, need support? Reach out to us using the form
                     below or send us an email — we’ll get back to you as soon as
-                    possible. We’d love
-                    to hear from you.
+                    possible. We’d love to hear from you.
                   </p>
                 </div>
-                {/* Status Messages */}
-                <AnimatePresence>
-                  {loadingStatus === "sent" && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      className="mb-6 p-4 bg-gray-50 border-2 border-gray-200 rounded-xl flex items-center"
-                    >
-                      <CheckCircle className="w-5 h-5 text-black mr-3" />
-                      <div>
-                        <p className="text-black font-semibold">
-                          Message sent successfully!
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          We'll get back to you within 24 hours.
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-
-                  {loadingStatus === "error" && (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.95, y: -10 }}
-                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                      exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                      className="mb-6 p-4 bg-gray-50 border-2 border-gray-300 rounded-xl flex items-center"
-                    >
-                      <XCircle className="w-5 h-5 text-gray-700 mr-3" />
-                      <div>
-                        <p className="text-black font-semibold">
-                          Failed to send message
-                        </p>
-                        <p className="text-gray-600 text-sm">
-                          {errorMessage || "Please try again later."}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid gap-6 md:grid-cols-2">
@@ -224,34 +186,35 @@ export default function Contact() {
                       respond to your inquiry.
                     </p>
                   </div>
-
-                  <Button
-                    type="submit"
-                    disabled={loadingStatus === "sending"}
-                    className="w-full h-14 text-lg font-semibold bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
-                  >
-                    {loadingStatus === "sending" ? (
-                      <div className="flex items-center justify-center">
-                        <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                        Sending Message...
-                      </div>
-                    ) : loadingStatus === "sent" ? (
-                      <div className="flex items-center justify-center">
-                        <CheckCircle className="w-5 h-5 mr-2" />
-                        Message Sent!
-                      </div>
-                    ) : loadingStatus === "error" ? (
-                      <div className="flex items-center justify-center">
-                        <XCircle className="w-5 h-5 mr-2" />
-                        Try Again
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-center">
-                        <Send className="w-5 h-5 mr-2" />
-                        Send Message
-                      </div>
-                    )}
-                  </Button>
+                  <div className="space-y-4">
+                    <Button
+                      type="submit"
+                      disabled={loadingStatus === "sending"}
+                      className="w-full h-14 text-lg font-semibold bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
+                    >
+                      {loadingStatus === "sending" ? (
+                        <div className="flex items-center justify-center">
+                          <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                          Sending Message...
+                        </div>
+                      ) : loadingStatus === "sent" ? (
+                        <div className="flex items-center justify-center">
+                          <CheckCircle className="w-5 h-5 mr-2" />
+                          Message Sent!
+                        </div>
+                      ) : loadingStatus === "error" ? (
+                        <div className="flex items-center justify-center">
+                          <XCircle className="w-5 h-5 mr-2" />
+                          Try Again
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-center">
+                          <Send className="w-5 h-5 mr-2" />
+                          Send Message
+                        </div>
+                      )}
+                    </Button>
+                  </div>
                 </form>
               </div>
             </div>

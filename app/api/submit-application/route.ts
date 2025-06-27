@@ -1,16 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { handlePreflight, withCORS } from "@/lib/cors";
 
-// CORS preflight (optional if accessed cross-origin from another domain)
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Replace with your site domain in prod
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+export async function OPTIONS(request: NextRequest) {
+  return handlePreflight(request);
 }
 
 export async function POST(request: NextRequest) {
@@ -23,25 +16,25 @@ export async function POST(request: NextRequest) {
     const resumeFile = formData.get("resume") as File;
 
     if (!name || !email || !message || !resumeFile) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
+      return withCORS(
+        request,
+        NextResponse.json({ error: "Missing required fields" }, { status: 400 })
       );
     }
 
-    if (
-      !process.env.EMAIL_USER ||
-      !process.env.EMAIL_PASS ||
-      !process.env.RECIPIENT_EMAIL
-    ) {
+    const { EMAIL_USER, EMAIL_PASS, RECIPIENT_EMAIL } = process.env;
+
+    if (!EMAIL_USER || !EMAIL_PASS || !RECIPIENT_EMAIL) {
       console.warn("Missing email credentials or recipient email in env.");
-      return NextResponse.json(
-        { error: "Email configuration is missing." },
-        { status: 500 }
+      return withCORS(
+        request,
+        NextResponse.json(
+          { error: "Email configuration is missing." },
+          { status: 500 }
+        )
       );
     }
 
-    // Convert the resume to a Buffer
     const resumeBuffer = Buffer.from(await resumeFile.arrayBuffer());
 
     const transporter = nodemailer.createTransport({
@@ -49,14 +42,14 @@ export async function POST(request: NextRequest) {
       port: 587,
       secure: false,
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: EMAIL_USER,
+        pass: EMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: `"Application Form" <${process.env.EMAIL_USER}>`,
-      to: process.env.RECIPIENT_EMAIL,
+      from: `"Application Form" <${EMAIL_USER}>`,
+      to: RECIPIENT_EMAIL,
       subject: `📄 New Application from ${name}`,
       html: `
         <h2>New Job Application</h2>
@@ -77,27 +70,31 @@ export async function POST(request: NextRequest) {
 
     await transporter.sendMail(mailOptions);
 
-    return new NextResponse(
-      JSON.stringify({ message: "Application submitted successfully!" }),
-      {
-        status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*", // Replace in prod
-          "Content-Type": "application/json",
-        },
-      }
+    return withCORS(
+      request,
+      new NextResponse(
+        JSON.stringify({ message: "Application submitted successfully!" }),
+        {
+          status: 200,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
     );
-  } catch (error: any) {
+  } catch (error) {
     console.error("Application submission failed:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Failed to submit application" }),
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      }
+    return withCORS(
+      request,
+      new NextResponse(
+        JSON.stringify({ error: "Failed to submit application" }),
+        {
+          status: 500,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
     );
   }
 }

@@ -1,40 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { handlePreflight, withCORS } from "@/lib/cors";
 
-// Optional: CORS preflight support for external domains (e.g., if calling from Hostinger)
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Replace with your frontend domain in production
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+export async function OPTIONS(req: NextRequest) {
+  return handlePreflight(req);
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
-    const { name, email, service, projectDetails } = await request.json();
+    const { name, email, service, projectDetails } = await req.json();
 
     if (!name || !email || !service || !projectDetails) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
+      return withCORS(
+        req,
+        NextResponse.json({ error: "Missing required fields" }, { status: 400 })
       );
     }
 
-    // Check required env vars
     const { EMAIL_USER, EMAIL_PASS, RECIPIENT_EMAIL } = process.env;
     if (!EMAIL_USER || !EMAIL_PASS || !RECIPIENT_EMAIL) {
-      console.error("Missing environment variables for email.");
-      return NextResponse.json(
-        { error: "Email configuration is incomplete." },
-        { status: 500 }
+      console.error("Missing email environment variables.");
+      return withCORS(
+        req,
+        NextResponse.json(
+          { error: "Email configuration is incomplete." },
+          { status: 500 }
+        )
       );
     }
 
-    // Map internal service keys to readable labels
     const serviceLabels: Record<string, string> = {
       "aerial-photography": "Aerial Photography",
       inspection: "Inspection Services",
@@ -94,27 +88,21 @@ This quote request was submitted from your website.
 
     await transporter.sendMail(mailOptions);
 
-    return new NextResponse(
-      JSON.stringify({ message: "Quote request sent successfully!" }),
-      {
-        status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*", // Replace with domain in prod
-          "Content-Type": "application/json",
-        },
-      }
+    return withCORS(
+      req,
+      NextResponse.json(
+        { message: "Quote request sent successfully!" },
+        { status: 200 }
+      )
     );
   } catch (error) {
     console.error("Quote request email failed:", error);
-    return new NextResponse(
-      JSON.stringify({ error: "Failed to send quote request" }),
-      {
-        status: 500,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Content-Type": "application/json",
-        },
-      }
+    return withCORS(
+      req,
+      NextResponse.json(
+        { error: "Failed to send quote request" },
+        { status: 500 }
+      )
     );
   }
 }

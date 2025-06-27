@@ -52,7 +52,7 @@ export default function WorkWithUs() {
 
     if (!selectedFile) {
       setErrorMessage("Please upload a resume file");
-      setLoadingStatus("idle");
+      setLoadingStatus("error"); // previously was "idle"
       return;
     }
 
@@ -64,10 +64,13 @@ export default function WorkWithUs() {
       submitFormData.append("message", formData.message);
       submitFormData.append("resume", selectedFile);
 
-      const response = await fetch("/api/submit-application", {
-        method: "POST",
-        body: submitFormData,
-      });
+      const response = await fetch(
+        "https://leading-edge-drone-services.vercel.app/api/submit-application",
+        {
+          method: "POST",
+          body: submitFormData,
+        }
+      );
 
       const result = await response.json();
 
@@ -87,13 +90,16 @@ export default function WorkWithUs() {
       );
       setLoadingStatus("error");
     } finally {
-      setTimeout(() => setLoadingStatus("idle"), 3000);
+      setTimeout(() => {
+        setLoadingStatus("idle");
+        setErrorMessage(""); // clear it too
+      }, 3000);
     }
   };
 
   return (
     <motion.div
-      className="p-8 md:p-10 bg-white border-2 border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full relative overflow-hidden"
+      className="p-8 bg-white border-2 border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full relative overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -105,48 +111,15 @@ export default function WorkWithUs() {
 
       <div className="relative z-10">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-2">
+          <h2 className="text-2xl font-bold text-black mb-2">
             Join LeadingEdge
           </h2>
           <div className="w-16 h-0.5 bg-black mx-auto mb-4"></div>
-          <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+          <p className="text-sm text-gray-600 leading-relaxed">
             At LeadingEdge, drone operators drive innovation and foster growth.
             Submit your resume and expertise details to be considered.
           </p>
         </div>
-
-        {/* Status Messages */}
-        {loadingStatus === "sent" && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="absolute top-10 right-10 mb-6 p-4 bg-gray-50 border-2 border-gray-200 rounded-xl flex items-center"
-          >
-            <CheckCircle className="w-5 h-5 text-black mr-3" />
-            <div>
-              <p className="text-black font-semibold">
-                Application submitted successfully!
-              </p>
-              <p className="text-gray-600 text-sm">
-                We'll review your application and get back to you soon.
-              </p>
-            </div>
-          </motion.div>
-        )}
-
-        {errorMessage && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="absolute top-10 right-10 mb-6 p-4 bg-gray-50 border-2 border-gray-300 rounded-xl flex items-center z-[99999]"
-          >
-            <XCircle className="w-5 h-5 text-gray-700 mr-3" />
-            <div>
-              <p className="text-black font-semibold">Error</p>
-              <p className="text-gray-600 text-sm">{errorMessage}</p>
-            </div>
-          </motion.div>
-        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid gap-6 md:grid-cols-2">
@@ -237,30 +210,35 @@ export default function WorkWithUs() {
               className="w-full h-14 text-lg font-semibold bg-black hover:bg-gray-800 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed border-2 border-black"
               disabled={loadingStatus === "sending"}
             >
-              {loadingStatus === "sending" && (
-                <div className="flex items-center justify-center">
-                  <Loader2 className="w-5 h-5 animate-spin mr-2" />
-                  Submitting Application...
-                </div>
-              )}
-              {loadingStatus === "sent" && (
-                <div className="flex items-center justify-center">
-                  <CheckCircle className="w-5 h-5 mr-2" />
-                  Application Submitted!
-                </div>
-              )}
-              {loadingStatus === "error" && (
-                <div className="flex items-center justify-center">
-                  <XCircle className="w-5 h-5 mr-2" />
-                  Try Again
-                </div>
-              )}
-              {loadingStatus === "idle" && (
-                <div className="flex items-center justify-center">
-                  <Upload className="w-5 h-5 mr-2" />
-                  Submit Application
-                </div>
-              )}
+              <div className="flex items-center justify-center">
+                {loadingStatus === "sending" && (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin mr-2" />
+                    Submitting...
+                  </>
+                )}
+                {loadingStatus === "sent" && (
+                  <>
+                    <CheckCircle className="w-5 h-5 mr-2 text-green-400" />
+                    Submitted!
+                  </>
+                )}
+                {loadingStatus === "error" && (
+                  <>
+                    <XCircle className="w-5 h-5 mr-2 text-red-400" />
+                    {errorMessage === "Please upload a resume file"
+                      ? "Resume Required"
+                      : "Try Again"}
+                  </>
+                )}
+
+                {loadingStatus === "idle" && (
+                  <>
+                    <Upload className="w-5 h-5 mr-2" />
+                    Submit Application
+                  </>
+                )}
+              </div>
             </Button>
           </div>
         </form>
